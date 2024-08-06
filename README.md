@@ -1,7 +1,5 @@
 # AI Hacker Tutorials
 
-![AI Hacker Tutorials Logo](https://via.placeholder.com/150x150.png?text=AI+Hacker)
-
 ## 🚀 About the Project
 
 AI Hacker Tutorials is an innovative educational initiative designed to empower non-technical professionals and enthusiasts with the knowledge and skills to leverage artificial intelligence technologies. Our mission is to bridge the gap between cutting-edge AI capabilities and practical business applications, making AI accessible to everyone.
@@ -110,8 +108,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 For questions, suggestions, or collaborations, please reach out to us at:
 
-Email: info@aihackertutorials.com
-Twitter: [@AIHackerTuts](https://twitter.com/AIHackerTuts)
+Email: stephen@agentic6.com
+Twitter: [@Agentic6](https://x.com/Agentic6.com)
 
 ---
 
