@@ -5,7 +5,6 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-// Use the service role key instead of the anon key
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
@@ -13,15 +12,20 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-// Initialize Supabase client with the service role key
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
 export async function POST(request: Request) {
   try {
-    const { message } = await request.json();
-    console.log('Received message:', message);
+    const { message, model } = await request.json();
+    
+    if (!message || !model) {
+      return NextResponse.json({ error: 'Message and model are required' }, { status: 400 });
+    }
 
-    const command = `python scripts/generate_response.py "${message}"`;
+    console.log('Received message:', message);
+    console.log('Selected model:', model);
+
+    const command = `python scripts/generate_response.py "${message}" "${model}"`;
     console.log('Executing command:', command);
 
     const { stdout, stderr } = await execAsync(command);
@@ -34,14 +38,13 @@ export async function POST(request: Request) {
     const aiResponse = stdout.trim();
     console.log('AI response:', aiResponse);
 
-    // Store the message and response in Supabase
     const { data, error } = await supabase
       .from('messages')
-      .insert({ content: message, ai_response: aiResponse })
+      .insert({ content: message, ai_response: aiResponse, model: model })
 
     if (error) {
       console.error('Error inserting into Supabase:', error);
-      // Note: We're not throwing here to still return the AI response to the user
+      return NextResponse.json({ error: 'Failed to save message' }, { status: 500 });
     }
 
     return NextResponse.json({ aiResponse });
