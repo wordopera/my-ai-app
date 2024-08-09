@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     
     if (stderr) {
       console.error('Python script error:', stderr);
-      throw new Error(stderr);
+      return NextResponse.json({ error: 'Python script execution failed', details: stderr }, { status: 500 });
     }
 
     const aiResponse = stdout.trim();
@@ -44,12 +44,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error inserting into Supabase:', error);
-      return NextResponse.json({ error: 'Failed to save message' }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to save message', details: error }, { status: 500 });
     }
 
     return NextResponse.json({ aiResponse });
   } catch (error) {
     console.error('Error in chat API:', error);
-    return NextResponse.json({ error: 'An error occurred while processing your request' }, { status: 500 });
+    return NextResponse.json({ error: 'An error occurred while processing your request', details: error.message }, { status: 500 });
   }
 }
