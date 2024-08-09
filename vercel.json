@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/"
+      }
+    ],
+    "env": {
+      "DATABASE_URL": "@database_url"
+    },
+    "functions": {
+      "api/*.js": {
+        "memory": 1024,
+        "maxDuration": 10
+      }
+    }
+  }
