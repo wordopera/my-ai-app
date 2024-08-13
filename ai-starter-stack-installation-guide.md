@@ -1,6 +1,7 @@
 # AI Starter Stack: Comprehensive Installation Guide
 
 ## Table of Contents
+
 1. [Prerequisites](#prerequisites)
 2. [Cloning the Repository](#cloning-the-repository)
 3. [Environment Setup](#environment-setup)

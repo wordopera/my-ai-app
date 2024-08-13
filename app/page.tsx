@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { createClient } from '@supabase/supabase-js'
-import { useState, useEffect } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import { createClient } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables')
+  throw new Error("Missing Supabase environment variables");
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface Message {
   id: number;
@@ -24,51 +24,53 @@ interface Message {
 const models = ["gpt-3.5-turbo", "gpt-4", "claude-2", "llama-2", "gemini-pro"];
 
 export default function Home() {
-  const [message, setMessage] = useState('')
-  const [chat, setChat] = useState<Message[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedModel, setSelectedModel] = useState(models[0])
+  const [message, setMessage] = useState<string>("");
+  const [chat, setChat] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedModel, setSelectedModel] = useState<string>(models[0]);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const { data, error } = await supabase
-          .from('messages')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(50)
+          .from("messages") // Specify the table name
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(50);
 
         if (error) {
           throw error;
         }
 
-        setChat(data || [])
+        setChat(data as Message[]); // Type assertion to Message array
       } catch (error) {
-        console.error('Error fetching messages:', error)
-        toast.error('Failed to load chat history')
+        console.error("Error fetching messages:", error);
+        toast.error("Failed to load chat history");
       }
-    }
+    };
 
-    fetchMessages()
-  }, [])
+    fetchMessages();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!message.trim() || isLoading) return
+    e.preventDefault();
+    if (!message.trim() || isLoading) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, model: selectedModel })
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, model: selectedModel }),
       });
 
       const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}, message: ${responseData.error || 'Unknown error'}`);
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${responseData.error || "Unknown error"}`,
+        );
       }
 
       const newMessage: Message = {
@@ -76,17 +78,19 @@ export default function Home() {
         content: message,
         ai_response: responseData.aiResponse,
         created_at: new Date().toISOString(),
-        model: selectedModel
-      }
+        model: selectedModel,
+      };
 
-      setChat(prevChat => [newMessage, ...prevChat])
-      setMessage('')
-      toast.success('Message sent successfully')
+      setChat((prevChat) => [newMessage, ...prevChat]);
+      setMessage("");
+      toast.success("Message sent successfully");
     } catch (error) {
-      console.error('Detailed error:', error);
-      toast.error(`Failed to send message: ${error.message}`);
+      console.error("Detailed error:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      toast.error(`Failed to send message: ${errorMessage}`);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -112,20 +116,35 @@ export default function Home() {
               disabled={isLoading}
             >
               {models.map((model) => (
-                <option key={model} value={model}>{model}</option>
+                <option key={model} value={model}>
+                  {model}
+                </option>
               ))}
             </select>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-32 bg-blue-500 text-white p-2 rounded disabled:bg-gray-300 flex items-center justify-center"
               disabled={isLoading}
             >
               {isLoading ? (
                 <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
-              ) : 'Send'}
+              ) : (
+                "Send"
+              )}
             </button>
           </div>
         </form>
@@ -133,11 +152,13 @@ export default function Home() {
           {chat.map((msg) => (
             <div key={msg.id} className="mb-4 p-2 bg-gray-100 rounded">
               <p className="font-bold">You: {msg.content}</p>
-              <p className="mt-1">AI ({msg.model}): {msg.ai_response}</p>
+              <p className="mt-1">
+                AI ({msg.model}): {msg.ai_response}
+              </p>
             </div>
           ))}
         </div>
       </div>
     </main>
-  )
+  );
 }

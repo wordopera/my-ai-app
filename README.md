@@ -26,10 +26,12 @@ Our AI Starter Technology Stack is carefully curated to provide a robust foundat
 ### Stack Components
 
 1. **Version Control**
+
    - Git
    - GitHub
 
 2. **Integrated Development Environment**
+
    - Microsoft Visual Studio Code
 
 3. **Front-End (Client-Side)**
@@ -37,6 +39,7 @@ Our AI Starter Technology Stack is carefully curated to provide a robust foundat
    - Next.js
 
 =======
+
 ## 🚀 About the Project
 
 AI Hacker Tutorials is an innovative educational initiative designed to empower non-technical professionals and enthusiasts with the knowledge and skills to leverage artificial intelligence technologies. Our mission is to bridge the gap between cutting-edge AI capabilities and practical business applications, making AI accessible to everyone.
@@ -60,22 +63,25 @@ Our AI Starter Technology Stack is carefully curated to provide a robust foundat
 ### Stack Components
 
 1. **Version Control**
+
    - Git
    - GitHub
 
 2. **Integrated Development Environment**
+
    - Microsoft Visual Studio Code
 
 3. **Front-End (Client-Side)**
    - Node.js
    - Next.js
 
->>>>>>> 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc
-4. **Back-End (Server-Side)**
-   - Express
-   - Supabase
+> > > > > > > 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc 4. **Back-End (Server-Side)**
+
+- Express
+- Supabase
 
 5. **Deployment**
+
    - Vercel
 
 6. **Language Model Integration**
@@ -152,7 +158,8 @@ Twitter: [@AIHackerTuts](https://twitter.com/AIHackerTuts)
 =======
 Email: stephen@agentic6.com
 Twitter: [@Agentic6](https://x.com/Agentic6.com)
->>>>>>> 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc
+
+> > > > > > > 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc
 
 ---
 

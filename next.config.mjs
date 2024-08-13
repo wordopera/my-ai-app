@@ -5,7 +5,7 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         bufferutil: false,
-        'utf-8-validate': false,
+        "utf-8-validate": false,
       };
     }
     return config;
