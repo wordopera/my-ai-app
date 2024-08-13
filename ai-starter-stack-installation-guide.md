@@ -40,7 +40,7 @@ If any of these commands fail, please install the missing software before procee
 2. Navigate to the directory where you want to clone the repository:
 
    ```bash
-   cd /path/to/your/projects/folder
+   cd /path/projects/folder
    ```
 
 3. Clone the repository:
