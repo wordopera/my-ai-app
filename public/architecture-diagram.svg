@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Client -->
+  <rect x="10" y="10" width="180" height="80" fill="#f0f0f0" stroke="#000" stroke-width="2"/>
+  <text x="100" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Client Browser</text>
+  
+  <!-- Next.js Frontend -->
+  <rect x="10" y="150" width="180" height="80" fill="#61dafb" stroke="#000" stroke-width="2"/>
+  <text x="100" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Next.js Frontend</text>
+  
+  <!-- Next.js API Routes -->
+  <rect x="250" y="150" width="180" height="80" fill="#61dafb" stroke="#000" stroke-width="2"/>
+  <text x="340" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Next.js API Routes</text>
+  <text x="340" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">/generate-response</text>
+  
+  <!-- Supabase -->
+  <rect x="250" y="290" width="180" height="80" fill="#3ecf8e" stroke="#000" stroke-width="2"/>
+  <text x="340" y="335" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Supabase</text>
+  
+  <!-- AI Services -->
+  <rect x="490" y="10" width="140" height="60" fill="#ff9900" stroke="#000" stroke-width="2"/>
+  <text x="560" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">OpenAI API</text>
+  
+  <rect x="490" y="90" width="140" height="60" fill="#7b3fe4" stroke="#000" stroke-width="2"/>
+  <text x="560" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Anthropic API</text>
+  
+  <rect x="490" y="170" width="140" height="60" fill="#1877f2" stroke="#000" stroke-width="2"/>
+  <text x="560" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Llama API</text>
+  
+  <rect x="490" y="250" width="140" height="60" fill="#4285f4" stroke="#000" stroke-width="2"/>
+  <text x="560" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="16">Google Vertex AI</text>
+  
+  <!-- Arrows -->
+  <line x1="100" y1="90" x2="100" y2="150" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="190" y1="190" x2="250" y2="190" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="340" y1="230" x2="340" y2="290" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="430" y1="190" x2="490" y2="40" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="430" y1="190" x2="490" y2="120" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="430" y1="190" x2="490" y2="200" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="430" y1="190" x2="490" y2="280" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrowhead definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+</svg>

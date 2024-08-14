@@ -1,118 +1,90 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
-import { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-interface Message {
-  id: number;
-  content: string;
-  ai_response: string;
-  created_at: string;
-  model: string;
-}
-
-const models = ["gpt-3.5-turbo", "gpt-4", "claude-2", "llama-2", "gemini-pro"];
+const models = ["gpt-3.5-turbo", "gpt-4"];
 
 export default function Home() {
-  const [message, setMessage] = useState<string>("");
-  const [chat, setChat] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedModel, setSelectedModel] = useState<string>(models[0]);
+  const [message, setMessage] = useState("");
+  const [chat, setChat] = useState<{ role: string; content: string }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(models[0]);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("messages") // Specify the table name
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(50);
-
-        if (error) {
-          throw error;
-        }
-
-        setChat(data as Message[]); // Type assertion to Message array
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-        toast.error("Failed to load chat history");
-      }
-    };
-
-    fetchMessages();
-  }, []);
-
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim() || isLoading) return;
+    if (!message.trim()) return;
 
     setIsLoading(true);
+    setError(null);
+    const newMessage = { role: "user", content: message };
+    setChat((prevChat) => [...prevChat, newMessage]);
 
     try {
-      const response = await fetch("/api/chat", {
+      const res = await fetch("/api/generate-response", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ message, model: selectedModel }),
       });
 
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${responseData.error || "Unknown error"}`,
-        );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "An error occurred");
       }
 
-      const newMessage: Message = {
-        id: Date.now(),
-        content: message,
-        ai_response: responseData.aiResponse,
-        created_at: new Date().toISOString(),
-        model: selectedModel,
-      };
-
-      setChat((prevChat) => [newMessage, ...prevChat]);
+      const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      const aiResponse = { role: "assistant", content: data.aiResponse };
+      setChat((prevChat) => [...prevChat, aiResponse]);
       setMessage("");
-      toast.success("Message sent successfully");
     } catch (error) {
-      console.error("Detailed error:", error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error";
-      toast.error(`Failed to send message: ${errorMessage}`);
+      console.error("Error:", error);
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-24">
       <Toaster position="top-right" />
       <h1 className="text-4xl font-bold mb-8">AI Chat App</h1>
       <div className="w-full max-w-2xl flex flex-col h-[calc(100vh-200px)]">
-        <form onSubmit={handleSubmit} className="mb-4">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded mb-2"
-            placeholder="Type your message..."
-            disabled={isLoading}
-          />
-          <div className="flex space-x-2">
+        <div className="flex-grow overflow-y-auto border border-gray-300 rounded p-4 mb-4">
+          {chat.map((msg, index) => (
+            <div key={index} className="mb-4 p-2 bg-gray-100 rounded">
+              <p className="font-bold">{msg.role === "user" ? "You" : "AI"}:</p>
+              <p>{msg.content}</p>
+            </div>
+          ))}
+          {error && (
+            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
+              <p className="font-bold">Error:</p>
+              <p>{error}</p>
+            </div>
+          )}
+        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <div className="flex space-x-2 mb-2">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="flex-grow p-2 border border-gray-300 rounded"
+              placeholder="Type your message..."
+              disabled={isLoading}
+            />
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="p-2 border border-gray-300 rounded"
               disabled={isLoading}
             >
               {models.map((model) => (
@@ -121,12 +93,14 @@ export default function Home() {
                 </option>
               ))}
             </select>
-            <button
-              type="submit"
-              className="w-32 bg-blue-500 text-white p-2 rounded disabled:bg-gray-300 flex items-center justify-center"
-              disabled={isLoading}
-            >
-              {isLoading ? (
+          </div>
+          <button
+            type="submit"
+            className="w-full p-2 bg-blue-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
                 <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
@@ -142,22 +116,13 @@ export default function Home() {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-              ) : (
-                "Send"
-              )}
-            </button>
-          </div>
+                Processing...
+              </>
+            ) : (
+              "Send"
+            )}
+          </button>
         </form>
-        <div className="flex-grow overflow-y-auto border border-gray-300 rounded p-4">
-          {chat.map((msg) => (
-            <div key={msg.id} className="mb-4 p-2 bg-gray-100 rounded">
-              <p className="font-bold">You: {msg.content}</p>
-              <p className="mt-1">
-                AI ({msg.model}): {msg.ai_response}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </main>
   );
