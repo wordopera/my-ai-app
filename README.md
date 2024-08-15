@@ -1,161 +1,188 @@
-# AI Hacker Tutorials
+# AI Starter Stack 🚀
 
-![Band of Agentic Developers](./public/logo.png)
+![Agentic6 Team Logo](/public/logo.png)
 
-## 🚀 About the Project
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://semver.org)
+[![Next.js](https://img.shields.io/badge/Next.js-13.x-black)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18.x-61dafb)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-38b2ac)](https://tailwindcss.com/)
 
-AI Hacker Tutorials is an innovative educational initiative designed to empower non-technical professionals and enthusiasts with the knowledge and skills to leverage artificial intelligence technologies. Our mission is to bridge the gap between cutting-edge AI capabilities and practical business applications, making AI accessible to everyone.
+AI Starter Stack is a powerful, easy-to-use chat application built with Next.js, React, and integrated with OpenAI's GPT models. It provides a seamless way to interact with AI models and explore the possibilities of conversational AI.
 
-### 🎯 Target Audience
+## Table of Contents 📚
 
-- Business professionals without a computer science or programming background
-- Enthusiasts passionate about AI and technological advancements
-- Hobbyists and lifelong learners interested in exploring AI applications
+1. [Quick Start](#quick-start)
+2. [Features](#features)
+3. [Prerequisites](#prerequisites)
+4. [Installation](#installation)
+5. [Configuration](#configuration)
+6. [Troubleshooting](#troubleshooting)
+7. [API Reference](#api-reference)
+8. [Project Structure](#project-structure)
+9. [Deployment](#deployment)
+10. [Contributing](#contributing)
+11. [License](#license)
+12. [Acknowledgements](#acknowledgements)
+13. [Community and Support](#community-and-support)
+14. [Changelog](#changelog)
 
-## 📚 Available Tutorials
+## Quick Start 🏃‍♂️
 
-1. **AI Starter Technology Stack**: A comprehensive guide to setting up a basic AI development environment.
-2. **Custom GPTs**: Learn to create and customize GPTs for various business use cases.
-3. **Video Transcription**: Harness the power of AI for multilingual video transcription.
+```bash
+git clone https://github.com/wordopera/my-ai-app.git
+cd my-ai-app
+npm install
+npm run dev
+```
 
-## 🛠️ AI Starter Technology Stack
+Open [http://localhost:3000](http://localhost:3000) in your browser to start chatting!
 
-Our AI Starter Technology Stack is carefully curated to provide a robust foundation for AI development, suitable for beginners and non-technical users.
+## Features ✨
 
-### Stack Components
+- Chat interface for interacting with AI models
+- Support for OpenAI GPT models:
+  - GPT-3.5-turbo
+  - GPT-4
+- Message history stored in Supabase
+- Responsive design for mobile and desktop
+- Dark mode support
 
-1. **Version Control**
+## Prerequisites 📋
 
-   - Git
-   - GitHub
+- Node.js (v14 or later)
+- npm or yarn
+- Supabase account
+- OpenAI API key
 
-2. **Integrated Development Environment**
+## Installation 🛠️
 
-   - Microsoft Visual Studio Code
-
-3. **Front-End (Client-Side)**
-   - Node.js
-   - Next.js
-
-=======
-
-## 🚀 About the Project
-
-AI Hacker Tutorials is an innovative educational initiative designed to empower non-technical professionals and enthusiasts with the knowledge and skills to leverage artificial intelligence technologies. Our mission is to bridge the gap between cutting-edge AI capabilities and practical business applications, making AI accessible to everyone.
-
-### 🎯 Target Audience
-
-- Business professionals without a computer science or programming background
-- Enthusiasts passionate about AI and technological advancements
-- Hobbyists and lifelong learners interested in exploring AI applications
-
-## 📚 Available Tutorials
-
-1. **AI Starter Technology Stack**: A comprehensive guide to setting up a basic AI development environment.
-2. **Custom GPTs**: Learn to create and customize GPTs for various business use cases.
-3. **Video Transcription**: Harness the power of AI for multilingual video transcription.
-
-## 🛠️ AI Starter Technology Stack
-
-Our AI Starter Technology Stack is carefully curated to provide a robust foundation for AI development, suitable for beginners and non-technical users.
-
-### Stack Components
-
-1. **Version Control**
-
-   - Git
-   - GitHub
-
-2. **Integrated Development Environment**
-
-   - Microsoft Visual Studio Code
-
-3. **Front-End (Client-Side)**
-   - Node.js
-   - Next.js
-
-4. ** (Server-side)**
-- Supabase
-
-5. **Deployment**
-
-   - Vercel
-
-6. **Language Model Integration**
-   - OpenAI
-
-### Learning Objectives
-
-By following our AI Starter Technology Stack tutorial, you will:
-
-1. Identify the minimum requirements to set up an AI starter technology stack.
-2. Execute the steps to download, install, and configure each component of the stack.
-3. Create a Python program to prompt a Large Language Model and receive an output.
-
-## 🎓 Tutorial Structure
-
-Each tutorial in the AI Hacker series follows a consistent, user-friendly structure:
-
-1. **Introduction**: Overview of the topic and its relevance.
-2. **Prerequisites**: Required knowledge, software, or accounts.
-3. **Step-by-Step Guide**: Detailed instructions with screenshots and code snippets.
-4. **Practical Examples**: Real-world applications and use cases.
-5. **Troubleshooting**: Common issues and their solutions.
-6. **Further Resources**: Links to additional learning materials.
-
-## 🚀 Getting Started
-
-To begin your AI Hacker journey:
-
-1. Clone this repository:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/wordopera/my-ai-app.git
+   cd my-ai-app
    ```
-   git clone https://github.com/wordopera/my-ai-app/
+
+2. Install dependencies:
+   ```bash
+   npm install
    ```
-2. Navigate to the tutorial of your choice.
-3. Follow the README instructions within each tutorial folder.
 
-## 📅 Upcoming Work
+3. Set up environment variables (see [Configuration](#configuration) section).
 
-We're continuously working to improve and expand our tutorial offerings. Here's what's coming up:
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Enhancements to existing tutorials based on user feedback
-- New tutorials covering emerging AI technologies and applications
-- Integration with popular AI platforms and tools
+## Configuration ⚙️
 
-## 🤝 Contributing
+Create a `.env.local` file in the root directory with the following content:
 
-We welcome contributions from the community! If you'd like to contribute:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/AmazingFeature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL (found in Supabase dashboard)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase project's anon key (found in Supabase dashboard)
+- `OPENAI_API_KEY`: Your OpenAI API key (get it from [OpenAI's website](https://openai.com/))
 
-Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+## Troubleshooting 🔧
 
-## 📄 License
+1. **Module not found errors**
+   - Run `npm install` again
+   - Check import statement paths
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+2. **Development server fails to start**
+   - Ensure port 3000 is free
+   - Verify `.env.local` configuration
 
-## 🙏 Acknowledgements
+3. **TypeScript errors**
+   - Run `npm run type-check`
+   - Check `tsconfig.json` configuration
 
-- [OpenAI](https://openai.com/) for their groundbreaking work in AI
-- [Anthropic](https://www.anthropic.com/) for their contributions to AI safety and ethics
-- All our contributors and supporters in the AI community
+4. **Tailwind styles not applying**
+   - Verify `globals.css` import in `_app.tsx`
+   - Check `tailwind.config.js` paths
 
-## 📞 Contact
+For more issues, check the browser console or verify Node.js and npm versions.
 
-For questions, suggestions, or collaborations, please reach out to us at:
+## API Reference 📘
 
+Main endpoint for generating AI responses:
 
-=======
-Email: stephen@agentic6.com
-Twitter: [@Agentic6](https://x.com/Agentic6.com)
+```
+POST /api/generate-response
+```
 
+Request body:
+```json
+{
+  "message": "Your message here",
+  "model": "gpt-3.5-turbo"
+}
+```
 
+Response: Streaming response with AI-generated text
+
+## Project Structure 🗂️
+
+```
+my-ai-app/
+├── app/
+│   ├── api/
+│   ├── components/
+│   ├── hooks/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── public/
+├── .env.local
+├── next.config.js
+├── package.json
+├── README.md
+└── tsconfig.json
+```
+
+## Deployment 🚢
+
+This project is designed to be deployed on Vercel:
+
+1. Push your code to a GitHub repository
+2. Create a new project on Vercel and link it to your GitHub repo
+3. Add environment variables in Vercel dashboard
+4. Deploy!
+
+## Contributing 🤝
+
+We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to get started.
+
+## License 📄
+
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements 👏
+
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Supabase](https://supabase.com/)
+- [OpenAI](https://openai.com/)
+
+## Community and Support 💬
+
+- Twitter: [Stephen Wise (@Agentic6) / X](https://twitter.com/Agentic6)
+- YouTube: [Agentic6 Channel](https://www.youtube.com/@agentic6)
+- GitHub Issues: [Project Issues](https://github.com/wordopera/my-ai-app/issues)
+
+## Changelog 📝
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
 
 ---
 
-Happy AI Hacking! 🚀🤖
+Happy coding with your AI Starter Stack! 🎉
+
+Internal, Confidential
+Stephen Wise, August 15, 2024
