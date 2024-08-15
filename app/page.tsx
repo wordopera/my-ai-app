@@ -28,6 +28,7 @@ export default function Home() {
     setMessage("");
 
     try {
+      console.log("Sending request to API...");
       const res = await fetch("/api/generate-response", {
         method: "POST",
         headers: {
@@ -36,23 +37,27 @@ export default function Home() {
         body: JSON.stringify({ message: newMessage.content, model: selectedModel }),
       });
 
+      console.log("Received response from API:", res.status);
+
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        const errorData = await res.json();
+        throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
       }
 
       const reader = res.body?.getReader();
       if (!reader) throw new Error("Response body is not readable");
 
-      const decoder = new TextDecoder();
       let aiResponse = "";
+      const decoder = new TextDecoder();
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
         
+        const chunk = decoder.decode(value);
+        console.log("Received chunk:", chunk);
+        
+        const lines = chunk.split('\n');
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const jsonData = line.slice(6);

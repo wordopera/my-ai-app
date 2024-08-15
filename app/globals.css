@@ -31,3 +31,10 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Add this if you haven't set up dark mode */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
