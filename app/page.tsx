@@ -1,7 +1,13 @@
+// File: app/page.tsx
+// Last updated: August 15, 2024
+
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import ChatBubble from "./components/ChatBubble";
+import LoadingIndicator from "./components/LoadingIndicator";
+import ModelSelector from "./components/ModelSelector";
 
 const models = ["gpt-3.5-turbo", "gpt-4"];
 
@@ -33,7 +39,6 @@ export default function Home() {
     setMessage("");
 
     try {
-      console.log("Sending request to API...");
       const res = await fetch("/api/generate-response", {
         method: "POST",
         headers: {
@@ -41,8 +46,6 @@ export default function Home() {
         },
         body: JSON.stringify({ message: newMessage.content, model: selectedModel }),
       });
-
-      console.log("Received response from API:", res.status);
 
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -59,8 +62,6 @@ export default function Home() {
         if (done) break;
         
         const chunk = decoder.decode(value);
-        console.log("Received chunk:", chunk);
-        
         aiResponse += chunk;
         setChat((prevChat) => {
           const newChat = [...prevChat];
@@ -84,78 +85,44 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-24">
+    <div className="flex flex-col h-screen p-4 md:p-6 lg:p-8">
       <Toaster position="top-right" />
-      <h1 className="text-4xl font-bold mb-8">AI Chat App</h1>
-      <div className="w-full max-w-2xl flex flex-col h-[calc(85vh-200px)]">
-        <div className="flex-grow overflow-y-auto border border-gray-300 rounded p-4 mb-4">
-          {chat.map((msg, index) => (
-            <div key={index} className="mb-4 p-2 bg-gray-100 rounded">
-              <p className="font-bold">{msg.role === "user" ? "You" : "AI"}:</p>
-              <p>{msg.content}</p>
-            </div>
-          ))}
-          {error && (
-            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
-              <p className="font-bold">Error:</p>
-              <p>{error}</p>
-            </div>
-          )}
-          <div ref={chatEndRef} />
-        </div>
-        <form onSubmit={handleSubmit} className="flex flex-col">
-          <div className="flex space-x-2 mb-2">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="flex-grow p-2 border border-gray-300 rounded"
-              placeholder="Type your message..."
-              disabled={isLoading}
-            />
-            <select
-              value={selectedModel}
-              onChange={(e) => setSelectedModel(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
-              disabled={isLoading}
-            >
-              {models.map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-            </select>
+      <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">AI Chat App</h1>
+      <div className="flex-grow overflow-y-auto mb-4 space-y-4">
+        {chat.map((msg, index) => (
+          <ChatBubble key={index} message={msg} />
+        ))}
+        {error && (
+          <div className="p-2 bg-red-100 text-red-700 rounded">
+            <p className="font-bold">Error:</p>
+            <p>{error}</p>
           </div>
-          <button
-            type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Processing...
-              </>
-            ) : (
-              "Send"
-            )}
-          </button>
-        </form>
+        )}
+        <div ref={chatEndRef} />
       </div>
-    </main>
+      <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="flex-grow p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          placeholder="Type your message..."
+          disabled={isLoading}
+        />
+        <ModelSelector
+          selectedModel={selectedModel}
+          onModelChange={setSelectedModel}
+          disabled={isLoading}
+          className="w-full md:w-auto"
+        />
+        <button
+          type="submit"
+          className="w-full md:w-auto px-4 py-2 md:py-3 bg-primary-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
+          disabled={isLoading}
+        >
+          {isLoading ? <LoadingIndicator /> : "Send"}
+        </button>
+      </form>
+    </div>
   );
 }

@@ -1,3 +1,6 @@
+// File: tailwind.config.ts
+// Last updated: August 15, 2024
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -8,13 +11,30 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        primary: {
+          50: '#e6f1fe',
+          100: '#cce3fd',
+          200: '#99c7fb',
+          300: '#66aaf9',
+          400: '#338ef7',
+          500: '#0072f5', // Main primary color, used in button
+          600: '#005bc4',
+          700: '#004493',
+          800: '#002e62',
+          900: '#001731',
+        },
+        secondary: {
+          // ... (keep existing secondary colors)
+        },
+        neutral: {
+          // ... (keep existing neutral colors)
+        },
       },
+      // ... (keep other existing configurations)
     },
   },
   plugins: [],
 };
+
 export default config;
