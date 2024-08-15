@@ -37,30 +37,41 @@ export default function Home() {
       });
 
       if (!res.ok) {
-        let errorMessage = `HTTP error! status: ${res.status}`;
-        try {
-          const errorData = await res.json();
-          errorMessage = errorData.error || errorMessage;
-        } catch {
-          // If parsing JSON fails, we'll use the default error message
-        }
-        throw new Error(errorMessage);
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       const reader = res.body?.getReader();
       if (!reader) throw new Error("Response body is not readable");
 
+      const decoder = new TextDecoder();
       let aiResponse = "";
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        const chunk = new TextDecoder().decode(value);
-        aiResponse += chunk;
-        setChat((prevChat) => {
-          const newChat = [...prevChat];
-          newChat[newChat.length - 1] = { role: "assistant", content: aiResponse };
-          return newChat;
-        });
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const jsonData = line.slice(6);
+            if (jsonData === '[DONE]') break;
+            
+            try {
+              const data = JSON.parse(jsonData);
+              const content = data.choices[0]?.delta?.content || '';
+              aiResponse += content;
+              setChat((prevChat) => {
+                const newChat = [...prevChat];
+                newChat[newChat.length - 1] = { role: "assistant", content: aiResponse };
+                return newChat;
+              });
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+            }
+          }
+        }
       }
 
       if (!aiResponse.trim()) {

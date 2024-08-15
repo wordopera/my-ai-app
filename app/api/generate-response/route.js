@@ -1,4 +1,3 @@
-// route.js
 export const runtime = 'edge';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -25,32 +24,7 @@ async function callOpenAI(message, model, apiKey) {
     }
   );
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-
-        for (const line of lines) {
-          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-            const data = JSON.parse(line.slice(6));
-            const content = data.choices[0]?.delta?.content || '';
-            controller.enqueue(content);
-          }
-        }
-      }
-      controller.close();
-    },
-  });
-
-  return stream;
+  return response.body;
 }
 
 async function generateAiResponse(message, model) {
@@ -81,7 +55,7 @@ export async function POST(request) {
 
     const aiResponseStream = await generateAiResponse(message, model);
     return new Response(aiResponseStream, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      headers: { 'Content-Type': 'text/event-stream' },
     });
   } catch (error) {
     console.error("Error in handler:", error);
