@@ -1,7 +1,6 @@
 # AI Hacker Tutorials
 
-<<<<<<< HEAD
-![Agentic6 logo]
+![Band of Agentic Developers](./public/logo.png)
 
 ## 🚀 About the Project
 
@@ -75,9 +74,7 @@ Our AI Starter Technology Stack is carefully curated to provide a robust foundat
    - Node.js
    - Next.js
 
-> > > > > > > 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc 4. **Back-End (Server-Side)**
-
-- Express
+4. ** (Server-side)**
 - Supabase
 
 5. **Deployment**
@@ -85,7 +82,7 @@ Our AI Starter Technology Stack is carefully curated to provide a robust foundat
    - Vercel
 
 6. **Language Model Integration**
-   - LiteLLM
+   - OpenAI
 
 ### Learning Objectives
 
@@ -112,7 +109,7 @@ To begin your AI Hacker journey:
 
 1. Clone this repository:
    ```
-   git clone https://github.com/ai-hacker-tutorials/ai-hacker-tutorials.git
+   git clone https://github.com/wordopera/my-ai-app/
    ```
 2. Navigate to the tutorial of your choice.
 3. Follow the README instructions within each tutorial folder.
@@ -152,14 +149,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 For questions, suggestions, or collaborations, please reach out to us at:
 
-<<<<<<< HEAD
-Email: info@aihackertutorials.com
-Twitter: [@AIHackerTuts](https://twitter.com/AIHackerTuts)
+
 =======
 Email: stephen@agentic6.com
 Twitter: [@Agentic6](https://x.com/Agentic6.com)
 
-> > > > > > > 02e4b8e5e464f9e8bf6edf30b72f05e9a22f9cfc
+
 
 ---
 
