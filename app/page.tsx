@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
 const models = ["gpt-3.5-turbo", "gpt-4"];
@@ -11,6 +11,11 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(models[0]);
   const [error, setError] = useState<string | null>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +24,8 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
     const newMessage = { role: "user", content: message };
-    setChat((prevChat) => [...prevChat, newMessage]);
+    setChat((prevChat) => [...prevChat, newMessage, { role: "assistant", content: "" }]);
+    setMessage("");
 
     try {
       const res = await fetch("/api/generate-response", {
@@ -27,26 +33,45 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message, model: selectedModel }),
+        body: JSON.stringify({ message: newMessage.content, model: selectedModel }),
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "An error occurred");
+        let errorMessage = `HTTP error! status: ${res.status}`;
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          // If parsing JSON fails, we'll use the default error message
+        }
+        throw new Error(errorMessage);
       }
 
-      const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("Response body is not readable");
+
+      let aiResponse = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = new TextDecoder().decode(value);
+        aiResponse += chunk;
+        setChat((prevChat) => {
+          const newChat = [...prevChat];
+          newChat[newChat.length - 1] = { role: "assistant", content: aiResponse };
+          return newChat;
+        });
       }
-      const aiResponse = { role: "assistant", content: data.aiResponse };
-      setChat((prevChat) => [...prevChat, aiResponse]);
-      setMessage("");
+
+      if (!aiResponse.trim()) {
+        throw new Error("Received an empty response from the server");
+      }
     } catch (error) {
       console.error("Error:", error);
       const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
       setError(errorMessage);
       toast.error(errorMessage);
+      setChat((prevChat) => prevChat.slice(0, -1)); // Remove the empty assistant message
     } finally {
       setIsLoading(false);
     }
@@ -70,6 +95,7 @@ export default function Home() {
               <p>{error}</p>
             </div>
           )}
+          <div ref={chatEndRef} />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex space-x-2 mb-2">
