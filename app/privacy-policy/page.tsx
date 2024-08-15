@@ -6,7 +6,7 @@ const PrivacyPolicy: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
       <p className="mb-4">Last Updated: August 14, 2024</p>
       <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
-      <p className="mb-4">Stephen's AI Chat ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our non-commercial AI chat service.</p>
+      <p className="mb-4">Agentic6's AI Chat ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our non-commercial AI chat service.</p>
       
       <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
       <p className="mb-4">We collect and store the following information:</p>

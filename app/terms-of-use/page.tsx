@@ -8,7 +8,7 @@ const TermsOfUse: React.FC = () => {
 
       <ol className="list-decimal list-inside space-y-4">
         <li>
-          <strong>Acceptance of Terms:</strong> By using Stephen's AI Chat ("the Service"), 
+          <strong>Acceptance of Terms:</strong> By using Agentic6's AI Chat ("the Service"), 
           you agree to these Terms of Use.
         </li>
         <li>
@@ -41,7 +41,7 @@ const TermsOfUse: React.FC = () => {
         </li>
       </ol>
 
-      <p className="mt-8">By using Stephen's AI Chat, you acknowledge that you have read and understood these Terms of Use.</p>
+      <p className="mt-8">By using Agentic6's AI Chat, you acknowledge that you have read and understood these Terms of Use.</p>
     </div>
   );
 };

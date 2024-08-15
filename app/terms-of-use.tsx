@@ -9,7 +9,7 @@ const TermsOfUse: React.FC = () => {
       <p>Last updated: August 14, 2024</p>
       <ol className="list-decimal list-inside space-y-4">
         <li>
-          <strong>Acceptance of Terms:</strong> By using Stephen's AI Chat ("the Service"), 
+          <strong>Acceptance of Terms:</strong> By using Agentic6's AI Chat ("the Service"), 
           you agree to these Terms of Use.
         </li>
         {/* ... rest of your terms of use ... */}

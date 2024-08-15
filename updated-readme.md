@@ -1,7 +1,7 @@
 # AI Starter Stack
 
-## Project: Stephen's HomePage Site
-Owner: Stephen Wise
+## Project: Agentic6's HomePage Site
+Owner: Agentic6
 Date: August 15, 2024
 
 This project is an AI Chat Application built with Next.js, React, and integrated with various AI models through API calls.
@@ -247,7 +247,7 @@ This project is licensed under the ISC License.
 
 ## Contact Information
 
-For questions or feedback, please contact Stephen Wise at [contact email].
+For questions or feedback, please contact us at [contact email].
 
 ## Changelog
 
@@ -256,4 +256,4 @@ For questions or feedback, please contact Stephen Wise at [contact email].
 
 ---
 Internal, Confidential
-Stephen Wise, August 15, 2024
+Agentic6, August 15, 2024

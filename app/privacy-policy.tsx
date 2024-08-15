@@ -8,7 +8,7 @@ const PrivacyPolicy: React.FC = () => {
       {/* Add your privacy policy content here */}
       <p>Last updated: August 14, 2024</p>
       <p>
-        Stephen's AI Chat ("we", "our", or "us") is committed to protecting your privacy. 
+        Agentic6's AI Chat ("we", "our", or "us") is committed to protecting your privacy. 
         This Privacy Policy explains how we collect, use, and safeguard your information 
         when you use our non-commercial AI chat service.
       </p>
