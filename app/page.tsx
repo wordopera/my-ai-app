@@ -1,13 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
 const models = ["gpt-3.5-turbo", "gpt-4"];
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 export default function Home() {
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState<{ role: string; content: string }[]>([]);
+  const [chat, setChat] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(models[0]);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +28,7 @@ export default function Home() {
 
     setIsLoading(true);
     setError(null);
-    const newMessage = { role: "user", content: message };
+    const newMessage: ChatMessage = { role: "user", content: message };
     setChat((prevChat) => [...prevChat, newMessage, { role: "assistant", content: "" }]);
     setMessage("");
 
@@ -40,8 +45,7 @@ export default function Home() {
       console.log("Received response from API:", res.status);
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       const reader = res.body?.getReader();
@@ -57,26 +61,12 @@ export default function Home() {
         const chunk = decoder.decode(value);
         console.log("Received chunk:", chunk);
         
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const jsonData = line.slice(6);
-            if (jsonData === '[DONE]') break;
-            
-            try {
-              const data = JSON.parse(jsonData);
-              const content = data.choices[0]?.delta?.content || '';
-              aiResponse += content;
-              setChat((prevChat) => {
-                const newChat = [...prevChat];
-                newChat[newChat.length - 1] = { role: "assistant", content: aiResponse };
-                return newChat;
-              });
-            } catch (error) {
-              console.error("Error parsing JSON:", error);
-            }
-          }
-        }
+        aiResponse += chunk;
+        setChat((prevChat) => {
+          const newChat = [...prevChat];
+          newChat[newChat.length - 1] = { role: "assistant", content: aiResponse };
+          return newChat;
+        });
       }
 
       if (!aiResponse.trim()) {
@@ -97,7 +87,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-24">
       <Toaster position="top-right" />
       <h1 className="text-4xl font-bold mb-8">AI Chat App</h1>
-      <div className="w-full max-w-2xl flex flex-col h-[calc(100vh-200px)]">
+      <div className="w-full max-w-2xl flex flex-col h-[calc(85vh-200px)]">
         <div className="flex-grow overflow-y-auto border border-gray-300 rounded p-4 mb-4">
           {chat.map((msg, index) => (
             <div key={index} className="mb-4 p-2 bg-gray-100 rounded">
