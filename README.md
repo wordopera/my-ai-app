@@ -104,7 +104,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 4. **Tailwind styles not applying**
    - Verify `globals.css` import in `_app.tsx`
-   - Check `tailwind.config.js` paths
+   - Check `tailwind.config.ts` paths
 
 For more issues, check the browser console or verify Node.js and npm versions.
 
@@ -130,18 +130,59 @@ Response: Streaming response with AI-generated text
 
 ```
 my-ai-app/
+├── .git/
+├── .next/
 ├── app/
 │   ├── api/
+│   │   └── generate-response/
+│   │       └── route.ts
 │   ├── components/
+│   │   ├── ChatBubble.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── LoadingIndicator.tsx
+│   │   └── ModelSelector.tsx
+│   ├── error/
+│   │   └── not-found.tsx
 │   ├── hooks/
+│   │   └── useDarkMode.ts
+│   ├── privacy/
+│   │   └── page.tsx
+│   ├── terms/
+│   │   └── page.tsx
+│   ├── about/
+│   │   └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   ├── showcase/
+│   │   ├── page.tsx
+│   │   ├── ai-starter-stack/
+│   │   │   └── page.tsx
+│   │   ├── custom-gpt/
+│   │   │   └── page.tsx
+│   │   └── audio-to-text/
+│   │       └── page.tsx
+│   ├── favicon.ico
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
+├── node_modules/
 ├── public/
+│   ├── logo.png
+│   ├── og-image.png
+│   └── twitter-image.png
+├── .env.example
 ├── .env.local
+├── .eslintrc.json
+├── .gitignore
+├── .prettierrc
+├── next-env.d.ts
 ├── next.config.js
+├── package-lock.json
 ├── package.json
+├── postcss.config.js
 ├── README.md
+├── tailwind.config.ts
 └── tsconfig.json
 ```
 

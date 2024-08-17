@@ -1,58 +1,92 @@
 /* File: app/globals.css */
-/* Last updated: August 15, 2024 */
+/* August 16, 2024 */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
-@import '@fontsource/poppins/600.css';
-@import '@fontsource/poppins/700.css';
+/* Custom Utilities */
+@layer utilities {
+  .text-darkGray {
+    color: #333333; /* Ensure this matches your Tailwind config */
+  }
+}
+
 
 @layer base {
+  :root {
+    --font-sans: var(--font-montserrat);
+    --font-serif: var(--font-lato);
+  }
+
   body {
-    @apply font-sans text-neutral-800 bg-neutral-50 dark:text-neutral-100 dark:bg-neutral-900;
+    @apply font-sans text-neutral-darkGray bg-neutral-white;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold;
+    @apply font-bold leading-heading;
   }
 
   h1 {
-    @apply text-4xl mb-6;
+    @apply text-h1;
   }
 
   h2 {
-    @apply text-3xl mb-4;
+    @apply text-h2;
   }
 
   h3 {
-    @apply text-2xl mb-3;
+    @apply text-h3;
   }
 
-  a {
-    @apply text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-colors;
+  p {
+    @apply text-body leading-body;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded font-medium transition-colors;
+    @apply font-bold text-small py-3 px-6 rounded-full transition-transform duration-200 ease-in-out;
   }
 
   .btn-primary {
-    @apply bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700;
+    @apply bg-primary-500 text-neutral-white hover:bg-primary-600 hover:scale-105; /* Adjusted primary color */
   }
 
-  .btn-secondary {
-    @apply bg-secondary-500 text-white hover:bg-secondary-600 dark:bg-secondary-600 dark:hover:bg-secondary-700;
+  .nav-link {
+    @apply text-neutral-darkGray hover:text-fuchsia transition duration-300 ease-in-out;
   }
 
-  .input {
-    @apply px-3 py-2 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
-           dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100 dark:focus:ring-primary-400;
+  .nav-link::after {
+    content: '';
+    @apply block w-0 h-0.5 bg-fuchsia transition-all duration-300 ease-in-out;
   }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); }
+  to { transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-down {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+/* Dark mode styles */
+.dark {
+  @apply bg-deepBlue text-neutral-white;
 }

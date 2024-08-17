@@ -1,10 +1,16 @@
+// File: app/privacy/page.tsx
+// August 16, 2024
+
 import React from 'react';
 
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-      <p className="mb-4">Last Updated: August 14, 2024</p>
+      <p className="mb-4">Last Updated: August 16, 2024</p>
+      <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
+      <p className="mb-4">AI Starter Stack ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our non-commercial AI chat service.</p>
+      
       <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
       <p className="mb-4">Agentic6's AI Chat ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our non-commercial AI chat service.</p>
       
@@ -45,3 +51,4 @@ const PrivacyPolicy: React.FC = () => {
 };
 
 export default PrivacyPolicy;
+// Last line

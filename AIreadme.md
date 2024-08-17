@@ -137,8 +137,26 @@ my-ai-app/
 │   │   ├── Header.tsx
 │   │   ├── LoadingIndicator.tsx
 │   │   └── ModelSelector.tsx
+│   ├── error/
+│   │   └── not-found.tsx
 │   ├── hooks/
 │   │   └── useDarkMode.ts
+│   ├── privacy/
+│   │   └── page.tsx
+│   ├── terms/
+│   │   └── page.tsx
+│   ├── about/
+│   │   └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   ├── showcase/
+│   │   ├── page.tsx
+│   │   ├── ai-starter-stack/
+│   │   │   └── page.tsx
+│   │   ├── custom-gpt/
+│   │   │   └── page.tsx
+│   │   └── audio-to-text/
+│   │       └── page.tsx
 │   ├── favicon.ico
 │   ├── globals.css
 │   ├── layout.tsx
@@ -152,6 +170,7 @@ my-ai-app/
 ├── .env.local
 ├── .eslintrc.json
 ├── .gitignore
+├── .prettierrc
 ├── next-env.d.ts
 ├── next.config.js
 ├── package-lock.json
@@ -218,10 +237,13 @@ The application includes several reusable components:
 
 The application includes the following additional pages:
 
-- Terms of Use (`/terms-of-use`): Outlines the terms and conditions for using the application
-- Privacy Policy (`/privacy-policy`): Details the application's data handling and privacy practices
+- Terms of Use (`/terms`): Outlines the terms and conditions for using the application
+- Privacy Policy (`/privacy`): Details the application's data handling and privacy practices
+- About Us (`/about`): Provides information about the AI Starter Stack project and team
+- Contact Us (`/contact`): Offers ways to get in touch with the project team
+- Showcase (`/showcase`): Displays various AI solutions offered by the project
 
-These pages are accessible via links in the Footer component.
+These pages are accessible via links in the Header and Footer components.
 
 ## Performance Optimizations
 
@@ -313,6 +335,13 @@ For questions or feedback, please contact Stephen Wise at [contact email].
 | Aug 15, 2024| Device responsive design needed               | On-hold |
 
 ## Changelog
+
+### Version 0.2.1 (August 16, 2024)
+- Reorganized project structure for better organization
+- Added new pages: About, Contact, Showcase
+- Improved error handling with dedicated error folder
+- Updated styling for consistency across all pages
+- Enhanced dark mode functionality
 
 ### Version 0.2.0 (August 15, 2024)
 - Added support for GPT-4

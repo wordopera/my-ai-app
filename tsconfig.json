@@ -1,26 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "target": "es6",                // Compile to ES6 (ECMAScript 2015) syntax
+    "module": "esnext",             // Use the latest ECMAScript module syntax
+    "lib": ["dom", "dom.iterable", "esnext"], // Include necessary libraries
+    "allowJs": true,                // Allow JavaScript files
+    "skipLibCheck": true,           // Skip type checking of declaration files
+    "strict": true,                 // Enable all strict type-checking options
+    "noEmit": true,                 // Do not output files; used in projects like Next.js
+    "esModuleInterop": true,        // Enable compatibility for importing CommonJS modules
+    "moduleResolution": "bundler",  // Use bundler-style module resolution
+    "resolveJsonModule": true,      // Allow importing JSON modules
+    "isolatedModules": true,        // Ensure each file can be safely transpiled independently
+    "jsx": "preserve",              // Preserve JSX syntax (for use with React)
+    "incremental": true,            // Enable incremental compilation
     "plugins": [
       {
-        "name": "next"
+        "name": "next"              // Use Next.js TypeScript plugin
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"]                // Path mapping for module resolution
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"], // Files to include in the compilation
+  "exclude": ["node_modules"]       // Exclude node_modules from the compilation
 }

@@ -236,7 +236,7 @@ We'll guide you through installing the rest of the necessary software.
    npx tailwindcss init -p
    ```
 
-3. Open `tailwind.config.js` and update its content:
+3. Open `tailwind.config.ts` and update its content:
 
    ```javascript
    /** @type {import('tailwindcss').Config} */
@@ -310,7 +310,7 @@ We'll guide you through installing the rest of the necessary software.
 
 4. If Tailwind styles are not applying:
    - Check that `globals.css` is imported in `_app.tsx`.
-   - Verify that the `tailwind.config.js` file includes the correct paths.
+   - Verify that the `tailwind.config.ts` file includes the correct paths.
 
 5. For any other issues:
    - Check the console in your browser's developer tools for error messages.
