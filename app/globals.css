@@ -1,92 +1,27 @@
 /* File: app/globals.css */
 /* August 16, 2024 */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom Utilities */
-@layer utilities {
-  .text-darkGray {
-    color: #333333; /* Ensure this matches your Tailwind config */
-  }
-}
-
-
-@layer base {
-  :root {
-    --font-sans: var(--font-montserrat);
-    --font-serif: var(--font-lato);
-  }
-
-  body {
-    @apply font-sans text-neutral-darkGray bg-neutral-white;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold leading-heading;
-  }
-
-  h1 {
-    @apply text-h1;
-  }
-
-  h2 {
-    @apply text-h2;
-  }
-
-  h3 {
-    @apply text-h3;
-  }
-
-  p {
-    @apply text-body leading-body;
-  }
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @layer components {
-  .btn {
-    @apply font-bold text-small py-3 px-6 rounded-full transition-transform duration-200 ease-in-out;
+  .nav-item {
+    @apply font-semibold text-gray-800 dark:text-white hover:text-fuschia dark:hover:text-fuschia transition duration-300 relative;
   }
 
-  .btn-primary {
-    @apply bg-primary-500 text-neutral-white hover:bg-primary-600 hover:scale-105; /* Adjusted primary color */
-  }
-
-  .nav-link {
-    @apply text-neutral-darkGray hover:text-fuchsia transition duration-300 ease-in-out;
-  }
-
-  .nav-link::after {
+  .nav-item::after {
     content: '';
-    @apply block w-0 h-0.5 bg-fuchsia transition-all duration-300 ease-in-out;
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-fuschia transition-all duration-300;
   }
 
-  .nav-link:hover::after {
+  .nav-item:hover::after {
     @apply w-full;
   }
-}
 
-/* Custom animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-10px); }
-  to { transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.slide-down {
-  animation: slideDown 0.3s ease-in-out;
-}
-
-/* Dark mode styles */
-.dark {
-  @apply bg-deepBlue text-neutral-white;
+  .dark input[type="text"],
+  .dark input[type="email"],
+  .dark textarea {
+    @apply bg-deepBlue-800 text-white border-gray-700;
+  }
 }

@@ -34,7 +34,7 @@ const config: Config = {
           800: '#010440',
           900: '#01032E',
         },
-        fuchsia: '#F241A3', // Fuschia
+        fuschia: '#F241A3', // Fuschia
         yellow: '#F2D544',  // Yellow
       },
       fontFamily: {

@@ -1,15 +1,18 @@
 // File: app/layout.tsx
+// August 16, 2024
+
 import React from 'react';
-import type { Metadata } from 'next';
 import { Montserrat, Lato } from 'next/font/google';
 import ClientLayout from './clientLayout';
+import { metadata } from './metadata';
 
-// Font configurations (unchanged)
+// Font configurations
 const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-montserrat',
 });
+
 const lato = Lato({
   subsets: ['latin'],
   weight: ['300', '400', '700'],
@@ -17,9 +20,7 @@ const lato = Lato({
   variable: '--font-lato',
 });
 
-export const metadata: Metadata = {
-  // ... (unchanged)
-};
+export { metadata };
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -35,3 +36,5 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 export default RootLayout;
+
+// Last line

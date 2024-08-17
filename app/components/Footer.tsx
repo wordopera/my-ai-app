@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div>
-            <h4 className="text-h3 font-bold mb-4">Solutions</h4>
+            <h4 className="text-h3 font-bold mb-4">Demos</h4>
             <ul className="space-y-2">
               <li><Link href="/showcase/ai-starter-stack" className="hover:text-fuschia transition duration-200">AI Starter Stack</Link></li>
               <li><Link href="/showcase/custom-gpt" className="hover:text-fuschia transition duration-200">Custom GPT</Link></li>
@@ -57,4 +57,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-// Last line

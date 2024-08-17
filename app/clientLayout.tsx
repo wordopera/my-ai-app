@@ -35,7 +35,7 @@ const ClientLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       <Footer />
       <button
         onClick={toggleDarkMode}
-        className="fixed bottom-4 right-4 p-2 rounded-full bg-primaryBlue text-white hover:bg-fuchsia transition-all duration-200 ease-in-out"
+        className="fixed bottom-4 right-4 p-2 rounded-full bg-white text-fuschia dark:bg-primary-500 dark:text-white hover:bg-fuschia hover:text-white dark:hover:bg-fuschia transition-all duration-200 ease-in-out"
         aria-label="Toggle dark mode"
       >
         {darkMode ? <Sun size={24} /> : <Moon size={24} />}

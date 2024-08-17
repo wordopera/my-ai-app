@@ -13,10 +13,10 @@ export default function Home() {
           Empower your projects with cutting-edge AI technology. Explore our solutions and get started today.
         </p>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Link href="/showcase" className="btn btn-primary">
+          <Link href="/showcase/ai-starter-stack" className="bg-primary-500 text-white rounded-full px-6 py-3 font-semibold hover:bg-primary-600 hover:scale-105 transition-all duration-300">
             Explore Solutions
           </Link>
-          <Link href="/about" className="btn bg-yellow text-deepBlue hover:bg-fuschia hover:text-white hover:scale-105 transition duration-200">
+          <Link href="/about" className="bg-yellow text-deepBlue rounded-full px-6 py-3 font-semibold hover:bg-fuschia hover:text-white hover:scale-105 transition-all duration-300">
             Learn More
           </Link>
         </div>
