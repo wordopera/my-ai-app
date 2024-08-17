@@ -1,48 +1,42 @@
 // File: app/metadata.ts
-// August 16, 2024
+// August 17, 2024
+// called from layout.tsx
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Starter Stack',
-  description: 'Empower your projects with cutting-edge AI technology',
-  openGraph: {
-    title: 'AI Starter Stack',
-    description: 'Empower your projects with cutting-edge AI technology',
-    url: 'https://www.aistarterstact.com',
-    siteName: 'AI Starter Stack',
-    images: [
-      {
-        url: 'https://www.aistarterstact.com/og-image.png',
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI Starter Stack',
-    description: 'Empower your projects with cutting-edge AI technology',
-    creator: '@Agentic6',
-    images: ['https://www.aistarterstact.com/twitter-image.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  title: "Agentic 6: Unlock AI for Business Innovation",
+  description: "Explore Agentic 6 on GitHub! Clear AI concepts, real-world applications, and business strategies. Transform your business with AI.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: "Agentic 6: Unlock AI for Business Innovation",
+    description: "Explore Agentic 6 on GitHub! Clear AI concepts, real-world applications, and business strategies. Transform your business with AI.",
+    url: "https://agentic6.com",
+    siteName: "Agentic 6: Unlock AI for Business Innovation",
+    images: [
+      {
+        url: "https://agentic6.com/og-image.png",
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Agentic 6: Unlock AI for Business Innovation",
+    description: "Explore Agentic 6 on GitHub! Clear AI concepts, real-world applications, and business strategies. Transform your business with AI.",
+    images: ["https://agentic6.com/twitter-image.png"],
+  },
+  alternates: {
+    canonical: 'https://agentic6.com',
+    languages: {
+      'en': 'https://agentic6.com',
+      'x-default': 'https://agentic6.com'
+    }
   },
 };
 

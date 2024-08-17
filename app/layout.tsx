@@ -1,10 +1,11 @@
 // File: app/layout.tsx
-// August 16, 2024
+// August 17, 2024
 
 import React from 'react';
 import { Montserrat, Lato } from 'next/font/google';
 import ClientLayout from './clientLayout';
 import { metadata } from './metadata';
+import StructuredData from './components/StructuredData';
 
 // Font configurations
 const montserrat = Montserrat({
@@ -26,7 +27,8 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en" className={`${montserrat.variable} ${lato.variable}`}>
       <head>
-        <link rel="manifest" href="/manifest.json" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <StructuredData />
       </head>
       <body className="font-sans bg-white dark:bg-deepBlue text-darkGray dark:text-white">
         <ClientLayout>{children}</ClientLayout>
