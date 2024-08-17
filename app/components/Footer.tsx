@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li><Link href="/about" className="hover:text-fuschia transition duration-200">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-fuschia transition duration-200">Contact</Link></li>
-              <li><Link href="/careers" className="hover:text-fuschia transition duration-200">Careers</Link></li>
+              <li><Link href="/join-us" className="hover:text-fuschia transition duration-200">Join Us</Link></li>
             </ul>
           </div>
           <div>
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700">
-          <p className="text-center text-small">&copy; 2024 AI Starter Stack. All rights reserved.</p>
+          <p className="text-center text-small">&copy; 2024 Agentic6. All rights reserved.</p>
         </div>
       </div>
     </footer>
