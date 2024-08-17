@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://agentic6.com/og-image.png",
+        width: 1200,
+        height: 630,
+      
       }
     ],
     locale: "en_US",
