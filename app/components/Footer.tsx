@@ -1,5 +1,5 @@
 // File: app/components/Footer.tsx
-// August 16, 2024
+// August 17, 2024
 
 import React from 'react';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <h3 className="text-h3 font-bold mb-4">Agentic 6</h3>
-            <p className="text-small mb-4">Empowering developers with AI-driven solutions.</p>
+            <p className="text-small mb-4">Empowering business with embedded AI</p>
             <div className="flex space-x-4">
               <a href="https://twitter.com/agentic6" target="_blank" rel="noopener noreferrer" className="text-white hover:text-fuschia transition duration-200">
                 <Twitter size={24} />

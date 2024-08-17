@@ -1,5 +1,5 @@
 // File: app/components/Header.tsx
-// August 16, 2024
+// August 17, 2024
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -26,9 +26,9 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center">
-            <Image src="/logo.png" alt="AI Starter Stack Logo" width={40} height={40} />
+            <Image src="/logo.png" alt="Agentic 6 Logo" width={40} height={40} />
             <span className="ml-2 text-2xl font-bold text-primaryBlue dark:text-white">
-              AI Starter Stack
+              Agentic 6
             </span>
           </Link>
           <nav className="hidden md:flex space-x-8">
