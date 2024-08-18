@@ -1,5 +1,5 @@
 // File: app/components/Header.tsx
-// August 17, 2024
+// August 18, 2024
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <header className="bg-white dark:bg-deepBlue shadow-md">
+    <header className="sticky top-0 z-50 bg-white dark:bg-deepBlue shadow-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center">
@@ -73,3 +73,5 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+// last line

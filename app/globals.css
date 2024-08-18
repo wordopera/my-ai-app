@@ -1,5 +1,5 @@
 /* File: app/globals.css */
-/* August 16, 2024 */
+/* August 18, 2024 */
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -24,4 +24,35 @@
   .dark textarea {
     @apply bg-deepBlue-800 text-white border-gray-700;
   }
+}
+
+/* New styles for the AI Starter Stack page */
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background-color: #0072f5;
+  color: white;
+}
+
+.chat-bubble.assistant {
+  align-self: flex-start;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.dark .chat-bubble.assistant {
+  background-color: #1e293b;
+  color: #e2e8f0;
 }
