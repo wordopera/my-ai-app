@@ -25,13 +25,7 @@ export default function Home() {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [chat]);
-
-  const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+ 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
