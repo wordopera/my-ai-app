@@ -1,5 +1,5 @@
 // File: app/api/showcase/ai-starter-stack/generate-response/route.ts
-// August 17, 2024
+// August 19, 2024
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
@@ -18,31 +18,11 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: false },
 });
 
-function structuredLog(level: string, message: string, context: Record<string, unknown>) {
-  console.log(JSON.stringify({ level, message, context, timestamp: new Date().toISOString() }));
-}
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-  return String(error);
-}
-
-async function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-interface SupabaseInsertResult {
-  id?: number;
-  content: string;
-  ai_response: string;
-  model: string;
-  created_at?: string;
+function logError(error: unknown, context: string) {
+  console.error(`Error in ${context}:`, error);
 }
 
 async function* streamOpenAIResponse(message: string, model: string) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -55,10 +35,7 @@ async function* streamOpenAIResponse(message: string, model: string) {
         messages: [{ role: 'user', content: message }],
         stream: true,
       }),
-      signal: controller.signal,
     });
-
-    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`OpenAI API responded with status: ${response.status}`);
@@ -94,21 +71,13 @@ async function* streamOpenAIResponse(message: string, model: string) {
               yield content;
             }
           } catch (error) {
-            structuredLog('error', 'JSON parsing error in streamOpenAIResponse', { errorMessage: getErrorMessage(error) });
+            logError(error, 'JSON parsing in streamOpenAIResponse');
           }
         }
       }
     }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        structuredLog('error', 'OpenAI API request timed out', { errorMessage: error.message });
-      } else {
-        structuredLog('error', 'Error in streamOpenAIResponse', { errorMessage: error.message });
-      }
-    } else {
-      structuredLog('error', 'Unknown error in streamOpenAIResponse', { error: String(error) });
-    }
+  } catch (error) {
+    logError(error, 'streamOpenAIResponse');
     yield JSON.stringify({ error: 'An error occurred while processing the request' });
   }
 }
@@ -131,29 +100,21 @@ export async function POST(request: NextRequest) {
           }
           controller.close();
 
-          let retries = 3;
-          while (retries > 0) {
-            try {
-              const { data, error } = await supabase
-                .from('messages')
-                .insert([{ content: message, ai_response: fullResponse, model }]);
-             
-              if (error) throw error;
-              
-              structuredLog('info', 'Successfully saved to Supabase', { data });
-              break;
-            } catch (error: unknown) {
-              retries--;
-              if (retries === 0) {
-                structuredLog('error', 'Failed to save to Supabase after retries', { errorMessage: getErrorMessage(error) });
-              } else {
-                structuredLog('warn', `Supabase insert failed, retrying (${retries} attempts left)`, { errorMessage: getErrorMessage(error) });
-                await sleep(1000 * (4 - retries)); // Exponential backoff: 1s, 2s, 3s
-              }
+          try {
+            const { data, error } = await supabase
+              .from('messages')
+              .insert([{ content: message, ai_response: fullResponse, model }]);
+            
+            if (error) {
+              logError(error, 'Supabase insert');
+            } else {
+              console.log('Successfully saved to Supabase:', data);
             }
+          } catch (error) {
+            logError(error, 'Supabase operation');
           }
-        } catch (error: unknown) {
-          structuredLog('error', 'Error in stream processing', { errorMessage: getErrorMessage(error) });
+        } catch (error) {
+          logError(error, 'Stream processing');
           controller.error(error);
         }
       },
@@ -162,8 +123,8 @@ export async function POST(request: NextRequest) {
     return new Response(stream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
-  } catch (error: unknown) {
-    structuredLog('error', 'Error in POST handler', { errorMessage: getErrorMessage(error) });
+  } catch (error) {
+    logError(error, 'POST handler');
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }
@@ -174,3 +135,5 @@ export async function GET() {
     { status: 405, headers: { 'Allow': 'POST' } }
   );
 }
+
+// last line
