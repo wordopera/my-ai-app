@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# next.config.js per googleaug 19
+next.config.js     
+
 # production
 /build
 
