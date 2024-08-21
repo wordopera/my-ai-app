@@ -1,13 +1,13 @@
 // File: app/components/Footer.tsx
-// August 17, 2024
+// August 20, 2024
 
 import React from 'react';
 import Link from 'next/link';
-import { Twitter, Youtube } from 'lucide-react';
+import { Twitter, Youtube, Github } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-deepBlue text-white py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-deepBlue text-white pt-8 pb-3 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -21,6 +21,10 @@ const Footer: React.FC = () => {
               <a href="https://www.youtube.com/@agentic6" target="_blank" rel="noopener noreferrer" className="text-white hover:text-fuschia transition duration-200">
                 <Youtube size={24} />
                 <span className="sr-only">YouTube</span>
+              </a>
+              <a href="https://github.com/agentic6" target="_blank" rel="noopener noreferrer" className="text-white hover:text-fuschia transition duration-200">
+                <Github size={24} />
+                <span className="sr-only">GitHub</span>
               </a>
             </div>
           </div>
@@ -48,8 +52,8 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700">
-          <p className="text-center text-small">&copy; 2024 Agentic6. All rights reserved.</p>
+        <div className="mt-5 pt-5 border-t border-gray-700">
+          <p className="text-center text-small pb-6">&copy; 2024 Agentic6. All rights reserved.</p>
         </div>
       </div>
     </footer>
