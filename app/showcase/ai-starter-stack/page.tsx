@@ -22,10 +22,19 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(models[0]);
   const [error, setError] = useState<string | null>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
- 
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  }, [chat]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,11 +93,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]"> {/* Adjust 4rem based on your header height */}
+    <div className="flex flex-col h-[calc(100vh-12rem)]">
       <Toaster position="top-right" />
-      <div className="flex-grow overflow-hidden flex flex-col p-4 md:p-6 lg:p-8">
+      <div className={`flex flex-col ${chat.length === 0 ? 'justify-end' : ''} flex-grow overflow-hidden p-4 md:p-6 lg:p-8`}>
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">AI Chat App</h1>
-        <div ref={chatContainerRef} className="flex-grow overflow-y-auto mb-4 space-y-4">
+        <div ref={chatContainerRef} className={`${chat.length > 0 ? 'h-[calc(70%*(100vh-12rem))]' : ''} overflow-y-auto mb-4 space-y-4`}>
           {chat.map((msg, index) => (
             <ChatBubble key={index} message={msg} />
           ))}
@@ -98,9 +107,8 @@ export default function Home() {
               <p>{error}</p>
             </div>
           )}
-          <div ref={chatEndRef} />
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2">
+        <form onSubmit={handleSubmit} className={`flex flex-col md:flex-row gap-2 ${chat.length > 0 ? 'h-[calc(20%*(100vh-12rem))]' : ''}`}>
           <input
             type="text"
             value={message}
