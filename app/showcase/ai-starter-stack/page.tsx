@@ -114,7 +114,7 @@ export default function Home() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="flex-grow p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder="Type your message..."
+            placeholder="Type your question to the AI ..."
             disabled={isLoading}
           />
           <ModelSelector
@@ -128,7 +128,7 @@ export default function Home() {
             className="w-full md:w-auto px-4 py-2 md:py-3 bg-primary-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
             disabled={isLoading}
           >
-            {isLoading ? <LoadingIndicator /> : "Send"}
+            {isLoading ? <LoadingIndicator /> : "Submit your question"}
           </button>
         </form>
       </div>
