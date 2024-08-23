@@ -3,12 +3,12 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import ChatBubble from "./components/ChatBubble";
 import LoadingIndicator from "./components/LoadingIndicator";
 import ModelSelector from "./components/ModelSelector";
-import { ModelProvider } from "./components/ModelContext";
+import { ModelProvider, useModel } from "./components/ModelContext";
 import { models } from "./components/Models";
 
 interface ChatMessage {
@@ -21,11 +21,15 @@ interface ChatState {
   error: string | null;
 }
 
-/**
- * Home component for the AI Chat App.
- * Manages the chat interface, message submission, and response handling.
- */
 export default function Home() {
+  return (
+    <ModelProvider>
+      <HomeContent />
+    </ModelProvider>
+  );
+}
+
+function HomeContent() {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [chatState, setChatState] = useState<ChatState>({
@@ -33,6 +37,7 @@ export default function Home() {
     error: null
   });
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const { selectedModel } = useModel();
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,14 +50,7 @@ export default function Home() {
     }, 100);
   }, [chat]);
 
-  /**
-   * Handles the submission of a new message to the AI chat.
-   * Sends the message to the server, processes the streamed response,
-   * and updates the chat state accordingly.
-   * 
-   * @param {React.FormEvent} e - The form submission event
-   */
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
@@ -67,7 +65,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: newMessage.content, model: models[0] }),
+        body: JSON.stringify({ message: newMessage.content, model: selectedModel }),
       });
 
       if (!res.ok) {
@@ -114,49 +112,47 @@ export default function Home() {
     } finally {
       setChatState(prevState => ({ ...prevState, isLoading: false }));
     }
-  };
+  }, [message, selectedModel]);
 
   return (
-    <ModelProvider>
-      <div className="flex flex-col h-[calc(100vh-12rem)]">
-        <Toaster position="top-right" />
-        <div className={`flex flex-col ${chat.length === 0 ? 'justify-end' : ''} flex-grow overflow-hidden p-4 md:p-6 lg:p-8`}>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">AI Chat App</h1>
-          <div ref={chatContainerRef} className={`${chat.length > 0 ? 'h-[calc(70%*(100vh-12rem))]' : ''} overflow-y-auto mb-4 space-y-4`}>
-            {chat.map((msg, index) => (
-              <ChatBubble key={index} message={msg} />
-            ))}
-            {chatState.error && (
-              <div className="p-2 bg-red-100 text-red-700 rounded">
-                <p className="font-bold">Error:</p>
-                <p>{chatState.error}</p>
-              </div>
-            )}
-          </div>
-          <form onSubmit={handleSubmit} className={`flex flex-col md:flex-row gap-2 ${chat.length > 0 ? 'h-[calc(20%*(100vh-12rem))]' : ''}`}>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="flex-grow p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="Type your question to the AI ..."
-              disabled={chatState.isLoading}
-            />
-            <ModelSelector
-              disabled={chatState.isLoading}
-              className="w-full md:w-auto"
-            />
-            <button
-              type="submit"
-              className="w-full md:w-auto px-4 py-2 md:py-3 bg-primary-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
-              disabled={chatState.isLoading}
-            >
-              {chatState.isLoading ? <LoadingIndicator /> : "Submit your question"}
-            </button>
-          </form>
+    <div className="flex flex-col h-[calc(100vh-12rem)]">
+      <Toaster position="top-right" />
+      <div className={`flex flex-col ${chat.length === 0 ? 'justify-end' : ''} flex-grow overflow-hidden p-4 md:p-6 lg:p-8`}>
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">AI Chat App</h1>
+        <div ref={chatContainerRef} className={`${chat.length > 0 ? 'h-[calc(70%*(100vh-12rem))]' : ''} overflow-y-auto mb-4 space-y-4`}>
+          {chat.map((msg, index) => (
+            <ChatBubble key={index} message={msg} />
+          ))}
+          {chatState.error && (
+            <div className="p-2 bg-red-100 text-red-700 rounded">
+              <p className="font-bold">Error:</p>
+              <p>{chatState.error}</p>
+            </div>
+          )}
         </div>
+        <form onSubmit={handleSubmit} className={`flex flex-col md:flex-row gap-2 ${chat.length > 0 ? 'h-[calc(20%*(100vh-12rem))]' : ''}`}>
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="flex-grow p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            placeholder="Type your question to the AI ..."
+            disabled={chatState.isLoading}
+          />
+          <ModelSelector
+            disabled={chatState.isLoading}
+            className="w-full md:w-auto"
+          />
+          <button
+            type="submit"
+            className="w-full md:w-auto px-4 py-2 md:py-3 bg-primary-500 text-white rounded disabled:bg-gray-300 flex items-center justify-center"
+            disabled={chatState.isLoading}
+          >
+            {chatState.isLoading ? <LoadingIndicator /> : "Submit your question"}
+          </button>
+        </form>
       </div>
-    </ModelProvider>
+    </div>
   );
 }
 
