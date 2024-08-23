@@ -28,3 +28,5 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
 };
 
 export default ChatBubble;
+
+// last line

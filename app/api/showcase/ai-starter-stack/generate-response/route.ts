@@ -9,6 +9,8 @@ export async function POST(request: NextRequest) {
     // Extract the message and model from the incoming JSON request
     const { message, model } = await request.json();
 
+    console.log('OpenAI-Key:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
+
     // Validate that both message and model are provided
     if (!message || !model) {
       // Return a 400 Bad Request response if either is missing

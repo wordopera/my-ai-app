@@ -3,6 +3,15 @@
 
 import React from 'react';
 
+interface LoadingIndicatorProps {
+  color?: string;
+  size?: number;
+  text?: string;
+  speed?: string; // Animation speed, e.g., 'fast', 'medium', 'slow'
+  shape?: 'circle' | 'dots'; // Shape of the spinner
+  loading?: boolean; // Control whether the spinner is displayed
+}
+
 const LoadingIndicator: React.FC = () => {
   return (
     <div className="flex items-center justify-center">
@@ -27,3 +36,12 @@ const LoadingIndicator: React.FC = () => {
 };
 
 export default LoadingIndicator;
+
+// # color: Customizes the color of the spinner. Defaults to 'currentColor'.
+// # size: Controls the size of the spinner in pixels. Defaults to 24px.
+// # text: Custom text displayed next to the spinner. Defaults to 'Processing...'.
+// # speed: Determines the speed of the spinner's animation. Can be 'fast', 'medium', or 'slow'. Defaults to 'medium'.
+// # shape: Allows choosing between two shapes of spinners: 'circle' or 'dots'. Defaults to 'circle'.
+// # loading: A boolean to control whether the spinner is displayed. Defaults to true
+
+// last line
