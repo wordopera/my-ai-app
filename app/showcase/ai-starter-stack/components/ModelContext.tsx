@@ -3,13 +3,13 @@
 
 // Import necessary React hooks and the list of models
 import React, { createContext, useState, useContext } from 'react';
-import { models } from './Models';
+import { ModelKey } from './Models';
 
 // Define the shape of our context
 // This tells TypeScript what data and functions our context will contain
 interface ModelContextType {
-  selectedModel: string;  // The currently selected AI model
-  setSelectedModel: (model: string) => void;  // Function to update the selected model
+  selectedModel: ModelKey;  // The currently selected AI model
+  setSelectedModel: (model: ModelKey ) => void;  // Function to update the selected model
 }
 
 // Create the context with an initial undefined value
@@ -20,7 +20,7 @@ const ModelContext = createContext<ModelContextType | undefined>(undefined);
 // This component will wrap parts of our app that need access to the model selection
 export const ModelProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Set up state for the selected model, initially choosing the first model in our list
-  const [selectedModel, setSelectedModel] = useState(models[0]);
+  const [selectedModel, setSelectedModel] = useState<ModelKey>('gpt-4o-mini');
 
   // Provide the context value to all children components
   // Any component inside this Provider can access selectedModel and setSelectedModel

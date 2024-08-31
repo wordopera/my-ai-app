@@ -8,6 +8,8 @@ export const modelMap = {
     "gemini-pro": "Gemini Pro"
   };
   
-  export const models = Object.keys(modelMap);
+  export type ModelKey = keyof typeof modelMap;
+
+  export const models: ModelKey[] = Object.keys(modelMap) as ModelKey[];
 
 // Last line

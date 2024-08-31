@@ -13,10 +13,12 @@ const MODEL_PREFIXES = {
 
 const API_TIMEOUT = 30000; // 30 seconds
 
-async function timeoutPromise(promise, ms) {
+async function timeoutPromise<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error('API call timed out')), ms))
+    new Promise<never>((_, reject) => 
+      setTimeout(() => reject(new Error('API call timed out')), ms)
+    )
   ]);
 }
 

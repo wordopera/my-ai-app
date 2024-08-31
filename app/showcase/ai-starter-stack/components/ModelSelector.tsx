@@ -6,7 +6,7 @@ import React from 'react';
 // Import our custom hook to access the model context
 import { useModel } from './ModelContext';
 // Import the list of available models
-import { models, modelMap } from './Models';
+import { ModelKey, models, modelMap } from './Models';
 
 // Define the props that this component accepts
 interface ModelSelectorProps {
@@ -25,7 +25,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ disabled, className }) =>
       // The current value of the select is the currently selected model
       value={selectedModel}
       // When a new option is selected, update the selected model
-      onChange={(e) => setSelectedModel(e.target.value)}
+      onChange={(e) => setSelectedModel(e.target.value as ModelKey)}
       // Apply CSS classes for styling
       // This includes responsive sizing, colors, and any custom classes passed in
       className={`p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded bg-white dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100 ${className}`}
