@@ -1,25 +1,63 @@
+// app/api/showcase/ai-starter-stack/generate-response/route.ts
+// August 30, 2024
+
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const MODEL_PREFIXES = {
+  OPENAI: 'gpt',
+  ANTHROPIC: 'claude',
+  GEMINI: 'gemini'
+};
+
+const API_TIMEOUT = 30000; // 30 seconds
+
+async function timeoutPromise(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('API call timed out')), ms))
+  ]);
+}
 
 export async function POST(request: NextRequest) {
   try {
     const { message, model } = await request.json();
     console.log('OpenAI-Key:', process.env.OPENAI_API_KEY ? 'Set' : 'Not set');
     console.log('Anthropic-Key:', process.env.ANTHROPIC_API_KEY ? 'Set' : 'Not set');
+    console.log('GOOGLE_API_KEY:', process.env.GOOGLE_API_KEY ? 'Set' : 'Not set');
 
     if (!message || !model) {
       return NextResponse.json({ error: 'Message and model are required' }, { status: 400 });
     }
 
+    if (model.startsWith(MODEL_PREFIXES.OPENAI) && !process.env.OPENAI_API_KEY) {
+      return NextResponse.json({ error: 'OpenAI API key is not set' }, { status: 500 });
+    }
+    if (model.startsWith(MODEL_PREFIXES.ANTHROPIC) && !process.env.ANTHROPIC_API_KEY) {
+      return NextResponse.json({ error: 'Anthropic API key is not set' }, { status: 500 });
+    }
+    if (model.startsWith(MODEL_PREFIXES.GEMINI) && !process.env.GOOGLE_API_KEY) {
+      return NextResponse.json({ error: 'Google API key is not set' }, { status: 500 });
+    }
+
+    if (!Object.values(MODEL_PREFIXES).some(prefix => model.startsWith(prefix))) {
+      return NextResponse.json({ error: 'Unsupported model' }, { status: 400 });
+    }
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          if (model.startsWith('gpt')) {
+          if (model.startsWith(MODEL_PREFIXES.OPENAI)) {
             for await (const chunk of streamOpenAIResponse(message, model)) {
               controller.enqueue(new TextEncoder().encode(chunk));
             }
-          } else if (model.startsWith('claude')) {
+          } else if (model.startsWith(MODEL_PREFIXES.ANTHROPIC)) {
             for await (const chunk of streamAnthropicResponse(message, model)) {
+              controller.enqueue(new TextEncoder().encode(chunk));
+            }         
+          } else if (model.startsWith(MODEL_PREFIXES.GEMINI)) {
+            for await (const chunk of streamGeminiResponse(message, model)) {
               controller.enqueue(new TextEncoder().encode(chunk));
             }
           } else {
@@ -42,7 +80,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function* streamOpenAIResponse(message: string, model: string) {
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  const response = await timeoutPromise(fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -53,7 +91,7 @@ async function* streamOpenAIResponse(message: string, model: string) {
       messages: [{ role: "user", content: message }],
       stream: true,
     }),
-  });
+  }), API_TIMEOUT);
 
   const reader = response.body?.getReader();
   const decoder = new TextDecoder();
@@ -81,10 +119,10 @@ async function* streamOpenAIResponse(message: string, model: string) {
         }
       } catch (error) {
         if (i === lines.length - 1) {
-          buffer = line; // Keep the buffer if the line is incomplete
+          buffer = line;
         } else {
           console.error('Error parsing JSON:', error, 'Line:', line);
-          buffer = ''; // Clear buffer on error
+          buffer = '';
         }
       }
     }
@@ -97,7 +135,7 @@ async function* streamAnthropicResponse(message: string, model: string) {
   });
 
   try {
-    const stream = await anthropic.messages.create({
+    const stream = await timeoutPromise(anthropic.messages.create({
       model: model,
       max_tokens: 1000,
       messages: [
@@ -112,17 +150,64 @@ async function* streamAnthropicResponse(message: string, model: string) {
         }
       ],
       stream: true,
-    });
+    }), API_TIMEOUT);
 
     for await (const chunk of stream) {
       if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
         yield chunk.delta.text;
       }
     }
-    
-
   } catch (error) {
     console.error('Anthropic API Error:', error);
     throw new Error('Error in Anthropic API call: ' + (error as Error).message);
   }
 }
+
+async function* streamGeminiResponse(message: string, model: string) {
+  const apiKey = process.env.GOOGLE_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_API_KEY environment variable not set.');
+  }
+
+  try {
+    const client = new GoogleGenerativeAI(apiKey);
+    const geminiModel = client.getGenerativeModel({ model: model });
+
+    const generationConfig = {
+      temperature: 0.9,
+      topK: 1,
+      topP: 1,
+      maxOutputTokens: 2048,
+    };
+
+    const result = await timeoutPromise(geminiModel.generateContentStream({
+      contents: [{ role: "user", parts: [{ text: message }] }],
+      generationConfig,
+    }), API_TIMEOUT);
+
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      if (chunkText) {
+        yield chunkText;
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message.includes('API key not valid')) {
+        console.error('Invalid Google API key');
+        throw new Error('Invalid Google API key. Please check your credentials.');
+      } else if (error.message.includes('model not found')) {
+        console.error('Specified Gemini model not found');
+        throw new Error('The specified Gemini model was not found. Please check the model name.');
+      } else {
+        console.error('Error in Gemini API call:', error);
+        throw new Error('Error in Gemini API call: ' + error.message);
+      }
+    } else {
+      console.error('Unknown error in Gemini API call:', error);
+      throw new Error('Unknown error occurred during Gemini API call');
+    }
+  }
+}
+
+      // last line

@@ -1,12 +1,12 @@
 // app/showcase/ai-starter-stack/components/ModelSelector.tsx
-// August 22, 2024
+// August 30, 2024
 
 // Import necessary dependencies
 import React from 'react';
 // Import our custom hook to access the model context
 import { useModel } from './ModelContext';
 // Import the list of available models
-import { models } from './Models';
+import { models, modelMap } from './Models';
 
 // Define the props that this component accepts
 interface ModelSelectorProps {
@@ -33,11 +33,11 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ disabled, className }) =>
       disabled={disabled}
     >
       // dynamically generate dropdown based on the contents of the models array.
-           {models.map((model) => (
-        <option key={model} value={model}>
-          {model}
-        </option>
-      ))}
+      {models.map((model) => (
+  <option key={model} value={model}>
+    {modelMap[model]}
+  </option>
+))}
     </select>
   );
 };
